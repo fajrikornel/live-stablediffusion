@@ -1,13 +1,16 @@
+from typing import List
 from PIL import Image
 from diffusers import StableDiffusionPipeline
 import torch
+
+from live_stablediffusion.subscriber import ImageSubscriber
 
 class ImageGenerator:
 
     def __init__(self, pipe, **pipe_options) -> None:
         self.pipe = pipe
         self.pipe_options = pipe_options
-        self.image_subscribers = []
+        self.image_subscribers: List[ImageSubscriber] = []
 
     def run_prompt(self, prompt: str) -> Image:
         image = self.pipe(prompt,
@@ -19,10 +22,10 @@ class ImageGenerator:
         for subscriber in self.image_subscribers:
             subscriber(image)
 
-    def register_image_subscribers(self, subscriber):
+    def register_image_subscribers(self, subscriber: ImageSubscriber):
         self.image_subscribers.append(subscriber)
 
-    def unregister_image_subscribers(self, subscriber):
+    def unregister_image_subscribers(self, subscriber: ImageSubscriber):
         self.image_subscribers.remove(subscriber)
 
     def get_publish_image_callback(self):
