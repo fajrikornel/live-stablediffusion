@@ -12,7 +12,7 @@ class SaveToFileCommandLineInterface:
     PROGRAM_EPILOG = 'Currently only supports MPS stable diffusion'
 
     def __init__(self) -> None:
-        parser = ArgumentParser(prog=self.PROGRAM_NAME, description=self.PROGRAM_DESCRIPTION)
+        parser = ArgumentParser(prog=self.PROGRAM_NAME, description=self.PROGRAM_DESCRIPTION, epilog=self.PROGRAM_EPILOG)
         parser.add_argument('prompt', help='Image prompt', type=str)
         parser.add_argument('-o', '--output-filename', help='Output filename', type=str, required=True)
         parser.add_argument('-d', '--output-directory', help='Output directory', type=str)
