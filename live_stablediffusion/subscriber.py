@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import os
 from PIL import Image
 
 class ImageSubscriber:
@@ -15,7 +16,12 @@ class SaveToFileImageSubscriber(ImageSubscriber):
         self.iteration = 0
 
     def __call__(self, image: Image) -> None:
-        image.save(self.__format_image_name())
+        image_name = self.__format_image_name()
+        dirname = os.path.dirname(image_name)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        image.save(image_name)
         self.iteration += 1
 
     def __format_image_name(self):
